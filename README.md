@@ -323,7 +323,7 @@ Button(action: {
 
 <h4 id="NavigationButton"> NavigationButton </h4>
 
-`NavigationButtonPage ` is used to push to the next navigation page.
+`NavigationButtonPage ` 는 눌러사 다음 네비게이션 페이지로 가기 위해 사용됩니다.
 
 Example:
 
@@ -332,6 +332,8 @@ NavigationButton(destination: NavigationButtonPage()) {
     Text("NavigationButton").bold().color(.orange).font(.largeTitle)
     }.navigationBarItem(title: Text("Page"))
 ```     
+만약 `NavigationButtonPage 선언과 관련해서 오류`가 뜬다면,
+새로운 swiftui 파일을 하나 만들고, 페이지 이름을 `NavigationButtonPage` 으로 만들어주세요!
 
 <details close>
   <summary>결과 보기</summary>
@@ -342,7 +344,7 @@ NavigationButton(destination: NavigationButtonPage()) {
 
 <h4 id="PresentationButton"> PresentationButton </h4>
 
-`PresentationButton` is used to pop up a page.
+`PresentationButton` 은 **페이지를 팝업으로** 띄우기 위해서 사용됩니다.
 
 Example:
 
