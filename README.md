@@ -1,4 +1,7 @@
 
+![]("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjC4b3R8ovjAhUny4sBHQ-8CNYQjRx6BAgBEAU&url=https%3A%2F%2Fprograils.com%2Fposts%2Fhow-to-get-started-with-swiftui%3Futm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dhow-to-get-started-with-swiftui-1&psig=AOvVaw1zMF7YNx52uKXitz8aczb7&ust=1561801624924414")
+
+
 [![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
 [![Xcode](https://img.shields.io/badge/Xcode-11.0-blue.svg)](https://developer.apple.com/xcode)
 [![Xcode](https://img.shields.io/badge/macOS-15.0-blue.svg)](https://developer.apple.com/macOS)
@@ -12,7 +15,7 @@
 
 
 
-### 💻 Requirements
+### 💻 지원 환경
 
 - macOS 15 Beta
 - Xcode 11.0 Beta
@@ -129,17 +132,17 @@
 
 <h4 id="Text">Text</h4>
 
-`Text` is used to display one or more lines of text content with the same effect as `UILabel`, but it is even better.
-`Text` 는 한줄이나, 그 이상의 텍스트를 `UILable
 
-If you want to create `Text`, just create it with `Text("SwiftUI")`;
-With chained syntax, you can also add multiple attributes to the text, such as fonts, colors, shadows, spacing between top left and right, and so on.
+`Text` 는 한줄이나, 그 이상의 텍스트를 `UILabel` 과 같은 형태로 나타 내어 줍니다.
 
-Example:
+만약 `Text` 를 생성 하고자 한다면, 그냥 `Text("하고싶은말");` 과 같은 형태로 진행하면 됩니다.
+그리고, 폰트,색깔,그림자, 마진(~~??? : And I also, 마진조아~~)을 줄 수 있습니다.
+
+예제:
 
 ```swift
-Text("SwiftUI")
-    .color(.orange)
+Text("TEST TEXT")
+    .color(.red)
     .bold()
     .font(.system(.largeTitle))
     .fontWeight(.medium)
@@ -148,52 +151,93 @@ Text("SwiftUI")
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
   <img width="80%" src="images/example/Text.png"/>
 </details>
 
- 
-> HStack and VStack controls are used to host multiple views, as mentioned later.
 
-[🔝](#Text_D)
-
+[🔝](#Text_D) 
+--
 <h4 id="TextField"> TextField </h4>
  
-`TextField` is used to add a normal input box, which is often used as a text input.
+ `TextField` 는 일반적으로 사용하는 텍스트 상자 와 같아서, 텍스트 입력을 받을 수 있습니다.
 
-Example：
+예제:
 
 ```swift
 
-TextField(self.$name, placeholder: self.nameText, onEditingChanged: { changed in
-    print("onEditing: \(changed)")
-}) {
-    print("userName: \(self.name)")
-    self.endEditing(true)
-}}
-.padding(10)
-.frame(height: 50)
-.textFieldStyle(.roundedBorder)
-.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+        TextField($data, placeholder:Text(placeholder), onEditingChanged: { changed in
+            print("onEditing: \(changed)")
+        }) {
+            print("data: \(self.data)")
 
+        }
+    .padding(10)
+    .frame(height: 50)
+    .textFieldStyle(.roundedBorder)
+    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+}
+}
 ```
+**만약 에러가 뜬다면,**
+
+  `self.data` 쪽에서 에러가 뜨거나 placeholder 에서 에러가 뜬다면 `name` 이나 `placeholde` State가 선언되지 않았을 가능성이 큽니다. 
+  
+`var body: some View {` 위에
+   ```swift
+   @State var data: String = ""
+   @State var placeholder: String = "let's input data"
+   ````
+   와 같은 형태로 선언을 해주세요!
 
 <details close>
-  <summary>View running results</summary>
-<img width="80%" src="images/example/Field.png"/>
+  <summary>결과 보기</summary>
+<img width="80%" src="images/example/TextField.png"/>
 </details>
 
-[🔝](#Text_D)
-
+[🔝](#Text_D) 
+-- 
 <h4 id="SecureField"> SecureField </h4>
 
-`SecureField ` is generally used as a password input. It is used in the same way as `TextField`. The example and the running effect are the same as `TextField`.
+`SecureField` 는 일반적으로 패스워드 입력에 많이 사용된다. 사용방법은 `TextField` 와 동일하다. 
 
+예제:
+
+```swift
+    SecureField($data, placeholder:Text(placeholder), onEditingChanged: { changed in
+            print("onEditing: \(changed)")
+        }) {
+            print("data: \(self.data)")
+
+        }
+    .padding(10)
+    .frame(height: 50)
+    .textFieldStyle(.roundedBorder)
+    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+}
+}
+```
+**만약 에러가 뜬다면,**
+
+  `self.data` 쪽에서 에러가 뜨거나 placeholder 에서 에러가 뜬다면 `name` 이나 `placeholde` State가 선언되지 않았을 가능성이 큽니다. 
+  
+`var body: some View {` 위에
+   ```swift
+   @State var data: String = ""
+   @State var placeholder: String = "let's input data"
+   ````
+   와 같은 형태로 선언을 해주세요!
+
+<details close>
+  <summary>결과 보기</summary>
+<img width="80%" src="images/example/SecureField.png"/>
+</details>
 
 <h4 id="Image"> Image </h4>
 
-The `Image` control is used to display images, example:
+`Image` 는 사진을 보여주기 위해 사용됩니다
 
+예제:
 ```swift
 Image("icon")
     .resizable()
@@ -203,7 +247,7 @@ Image("icon")
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Image.png"/>
 </details>
 
@@ -230,7 +274,7 @@ var body: some View {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/WebImage.png"/>
 </details>
 
@@ -250,7 +294,7 @@ Button(action: {
 }
 ```
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Button.png"/>
 </details>
 
@@ -278,7 +322,7 @@ NavigationButton(destination: NavigationButtonPage()) {
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/NavigationButton.png"/>
 </details>
 
@@ -298,7 +342,7 @@ PresentationButton(PageRow(title: "PresentationButton", subTitle: "pop up a page
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="40%" src="images/example/PresentationButton.png"/>
 </details>
 
@@ -315,7 +359,7 @@ navigationBarItems(trailing: EditButton())
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/EditButton.png"/>
 </details>
 
@@ -341,7 +385,7 @@ Picker(selection: $leftIndex, label: Text("Picker")) {
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Picker.png"/>
 </details>
 
@@ -367,7 +411,7 @@ DatePicker(
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/DatePicker.png"/>
 </details>
 
@@ -384,7 +428,7 @@ Togglele(isOn: $isOn) {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Toggle.png"/>
 </details>
 
@@ -399,7 +443,7 @@ Slider(value: $data.rating)
 ```     
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Slider.png"/>
 </details>
  
@@ -418,7 +462,7 @@ Stepper(value: $value, step: 2, onEditingChanged: { c in
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Stepper.png"/>
 </details>
 
@@ -439,7 +483,7 @@ SegmentedControl(selection: $currentIndex) {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/SegmentedControl.png"/>
 </details>
 
@@ -462,7 +506,7 @@ struct WebViewPage : UIViewRepresentable {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/WebView.png"/>
 </details>
 
@@ -503,7 +547,7 @@ NavigationButton(destination: ControllerPage<UIKitController>()) {
 
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/UIViewController.png"/>
 <img width="80%" src="images/example/UIViewController2.png"/>
 </details>
@@ -529,7 +573,7 @@ HStack {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/HStack.png"/>
 </details>
 
@@ -550,7 +594,7 @@ VStack {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/VStack.png"/>
 </details>
 
@@ -571,7 +615,7 @@ ZStack {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/ZStack.png"/>
 </details>
 
@@ -590,7 +634,7 @@ List(0..<5) { item in
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/List.png"/>
 </details>
 
@@ -617,7 +661,7 @@ ScrollView {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/ScrollView.png"/>
 </details>
 
@@ -641,7 +685,7 @@ var body: some View {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/ForEach.png"/>
 </details>
 
@@ -661,7 +705,7 @@ Group {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Group.png"/>
 </details>
 
@@ -687,7 +731,7 @@ Section(header: Text("I'm header"), footer: Text("I'm footer")) {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Section.png"/>
 </details>
 
@@ -707,7 +751,7 @@ NavigationView {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/NavigationView.png"/>
 </details>
 
@@ -730,7 +774,7 @@ TabbedView(selection: $index) {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/TabBar.png"/>
 </details>
 
@@ -759,7 +803,7 @@ presentation($showsAlert, alert: {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Alert.png"/>
 </details>
 
@@ -789,7 +833,7 @@ ActionSheet(title: Text("Title"),
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/ActionSheet.png"/>
 </details>
 
@@ -809,7 +853,7 @@ Modal(Text("Modal View"),onDismiss: {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Modal.png"/>
 </details>
 
@@ -829,7 +873,7 @@ Popover(content: Text("Popover View")) {
 ```
 
 <details close>
-  <summary>View running results</summary>
+  <summary>결과 보기</summary>
 <img width="80%" src="images/example/Popover.png"/>
 </details>
 
