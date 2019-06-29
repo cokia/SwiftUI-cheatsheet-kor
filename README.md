@@ -37,8 +37,6 @@
 
 * <span id="Button_D">버튼</span>
 	- [Button](#Button)
-	- [PullDownButton](#PullDownButton)
-	- [ItemBasedPopUpButton](#ItemBasedPopUpButton)
 	- [NavigationButton](#NavigationButton)
 	- [PresentationButton](#PresentationButton)
 	- [EditButton](#EditButton)
@@ -322,15 +320,6 @@ Button(action: {
 </details>
 
 [🔝](#Button_D)
-
-<h4 id="PullDownButton"> PullDownButton </h4>
-
-Waiting for release.
-
-<h4 id="ItemBasedPopUpButton"> ItemBasedPopUpButton </h4>
-
-Waiting for release.
-
 
 <h4 id="NavigationButton"> NavigationButton </h4>
 
