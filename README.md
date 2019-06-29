@@ -1,5 +1,5 @@
 
-![]("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjC4b3R8ovjAhUny4sBHQ-8CNYQjRx6BAgBEAU&url=https%3A%2F%2Fprograils.com%2Fposts%2Fhow-to-get-started-with-swiftui%3Futm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dhow-to-get-started-with-swiftui-1&psig=AOvVaw1zMF7YNx52uKXitz8aczb7&ust=1561801624924414")
+[]("https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png")
 
 
 [![Swift](https://img.shields.io/badge/Swift-5.1-orange.svg)](https://swift.org)
@@ -246,6 +246,9 @@ Image("icon")
            alignment: .center)
 ```
 
+이미지는 Assets에 추가해주세요!
+이미지 추가하는 법이 궁금하시다면... [요링크로](https://www.edwith.org/boostcourse-ios/lecture/16842)
+
 <details close>
   <summary>결과 보기</summary>
 <img width="80%" src="images/example/Image.png"/>
@@ -255,7 +258,7 @@ Image("icon")
 
 <h4 id="WebImage"> WebImage </h4>
 
-`webImage` is used to download the web image, use the `URLSession` to download the original `Image` after successful download; you can also use [Kingfisher]((https://github.com/onevcat/Kingfisher)) in the `downloadWebImage ` function .
+웹상의 이미지를 `Image` 를 통해 띄우려면, `URLSession` 을 사용해서, 직접 `downloadWebImage` 함수를 만들어서 사용 할 수 있습니다.
 
 Example：
 
@@ -270,8 +273,28 @@ var body: some View {
             .tapAction {
                 print("Tap ")
         }
+
     }
+
+  func downloadWebImage() {
+    guard let url = URL(string: "https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png") else {
+      print("Invaild URL")
+      return
+    }
+    URLSession.shared.dataTask(with: url) { (data, response, error) in 
+    if let data = data, let image = UIImage(data: data) {
+      self.uiImage=image
+    }else {
+        print("error: \(String(describing: error)))
+    }}
+  }
 ```
+만약 에러가 난다면, `var body: some View {` 위에 
+```swift
+ @State private var uiImage: UIImage? = nil
+    let placeholderImage = UIImage(named: "icon")!
+  ```
+를 입력해주세요!
 
 <details close>
   <summary>결과 보기</summary>
@@ -282,7 +305,7 @@ var body: some View {
 
 <h4 id="Button"> Button </h4>
 
-`Button` is used to respond to click events.
+`Button` 은, 클릭 이벤트를 발생시키기 위해 사용됩니다.
 
 Example:
 
@@ -881,18 +904,21 @@ Popover(content: Text("Popover View")) {
 
 ## 📎 About
 
-* The code involved in the above example is in this repository code. It is recommended to download and run the view.
-* If you have better usage and suggestions about SwiftUI, look forward to sharing it!
-* If there are omissions and errors in the examples in this article,  please create a [**Issue**](https://github.com/Jinxiansen/SwiftUI/issues/new) !
+* 여기 있는 모든 샘플코드는 Example project 안에 포함되어 있습니다. 
+* 만약, 여기 적힌 샘플 코드보다 깔끔하고 이쁘게 만들어 주실수 있으시다면 꼭 이슈를 넣어주세요!! (~~필자는 스위프트 알못입니다~~)
+* 만약 여기 예제코드에 에러가 있거나, 궁금한게 있으시다면 [**Issue**](https://github.com/cokia/SwiftUI-cheetsheet-kor/issues/new) 를 남겨주세요!!
  
 
 
 ## ✉️ Contacts
 
-email : hi@jinxiansen.com
+Mail : hanu@hanukoon.com
 
-微博 : [@晋先森](http://weibo.com/3205872327)
+Facebook : [한우영](https://fb.com/wooyoung.han.5)
+
+Github : [cokia](https://github.com/cokia)
+
 
 ## 📄 License	
 
-SwiftUI is released under the [GPL-3.0 license](LICENSE). See LICENSE for details.
+SwiftUI CheatSheet 프로젝트는 [GPL-3.0 license](LICENSE) 입니다 :) 
