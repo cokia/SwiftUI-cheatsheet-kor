@@ -39,8 +39,6 @@
 	- [Button](#Button)
 	- [NavigationButton](#NavigationButton)
 	- [PresentationButton](#PresentationButton)
-	- [EditButton](#EditButton)
-	- [PasteButton](#PasteButton)
 	- [Picker](#Picker)
 	- [DatePicker](#DatePicker)
 	- [Toggle](#Toggle)
@@ -305,7 +303,7 @@ var body: some View {
 
 `Button` 은, 클릭 이벤트를 발생시키기 위해 사용됩니다.
 
-Example:
+예제
 
 ```swift
 Button(action: {
@@ -325,7 +323,7 @@ Button(action: {
 
 `NavigationButtonPage ` 는 눌러사 다음 네비게이션 페이지로 가기 위해 사용됩니다.
 
-Example:
+예제
 
 ```swift
 NavigationButton(destination: NavigationButtonPage()) {
@@ -346,7 +344,7 @@ NavigationButton(destination: NavigationButtonPage()) {
 
 `PresentationButton` 은 **페이지를 팝업으로** 띄우기 위해서 사용됩니다.
 
-Example:
+예제
 
 ```swift
 PresentationButton(PageRow(title: "PresentationButton", subTitle: "pop up a page"),
@@ -362,42 +360,30 @@ PresentationButton(PageRow(title: "PresentationButton", subTitle: "pop up a page
 
 [🔝](#Button_D)
 
-<h4 id="EditButton"> EditButton </h4>
-
-`EditButton` is used to trigger the editing state, just use the `navigationBarItems` setting when using it. 
-
-Example:
-
-```swift
-navigationBarItems(trailing: EditButton())
-```     
-
-<details close>
-  <summary>결과 보기</summary>
-<img width="80%" src="images/example/EditButton.png"/>
-</details>
-
-[🔝](#Button_D)
-
-<h4 id="PasteButton"> PasteButton </h4> 
-
-Waiting for release.
- 
-
 <h4 id="Picker"> Picker </h4>
 
 `Picker` can customize the selector of the data source.
+`Picker` 는 데이터 선택기 입니다. (여러 데이터중 스크롤로 하나를 선택할때 사용합니다. 예시로,회원가입할때 성별 체크와 같은곳에 주로 사용합니다.)
 
-Example:
+예제
 
 ```swift
-Picker(selection: $leftIndex, label: Text("Picker")) {
-    ForEach(0..<leftSource.count) {
-        Text(self.leftSource[$0]).tag($0)
-    }
-    }.frame(width: UIScreen.main.bounds.width/2)
+Picker(selection: $selectedStrength, label: Text("Strength")) {
+                    ForEach(0 ..< strengths.count) {
+                        Text(self.strengths[$0]).tag($0)
+                    }
+                    }
+                    .pickerStyle(.wheel)
+        }
 ```     
 
+만약 `selectedStrength 선언과 관련해서 오류`가 뜬다면
+`var body: some View {` 위에
+```swift   
+var strengths = ["Mild", "Medium", "Mature"]
+@State var selectedStrength = 0
+```
+를 선언해주세요!
 <details close>
   <summary>결과 보기</summary>
 <img width="80%" src="images/example/Picker.png"/>
@@ -407,22 +393,56 @@ Picker(selection: $leftIndex, label: Text("Picker")) {
 
 <h4 id="DatePicker"> DatePicker </h4>
 
-`DatePicker` is used to select the absolute date of the control.
+`DatePicker` 는 위에서 이야기한 picker 의 날짜 버전입니다 :D
 
-Example:
+예제:
 
 ```swift
 DatePicker(
-    $server.date,
-    minimumDate: Calendar.current.date(byAdding: .year,
-                                       value: -1,
-                                       to: server.date),
-    maximumDate: Calendar.current.date(byAdding: .year,
-                                       value: 1,
-                                       to: server.date),
-    displayedComponents: .date
+VStack(alignment: .center, spacing: 10) {
+            Text("DatePicker").bold()
+            DatePicker(
+                $server.date,
+                minimumDate: Calendar.current.date(byAdding: .year,
+                                                   value: -1,
+                                                   to: server.date),
+                maximumDate: Calendar.current.date(byAdding: .year,
+                                                   value: 1,
+                                                   to: server.date),
+                displayedComponents: .date
+            )
+            }
+            .padding(.top)
+            .navigationBarTitle(Text("DatePicker"))
+    }
+}
+
+
 )
 ```     
+
+만약 에러가 난다면, `var body: some View {` 위에 
+```swift
+@ObjectBinding var server = DateServer()
+``` 
+를 선언하고,
+`var body: some View {` 의 괄호가 끝나는 부분에,
+```swift
+class DateServer: BindableObject {
+    
+    var didChange = PassthroughSubject<DateServer,Never>()
+    var date: Date = Date() {
+        didSet {
+            didChange.send(self)
+            print("Date Changed: \(date)")
+        }
+    }
+}
+
+\
+``` 
+로 클래스를 선언을 해주세요!
+
 
 <details close>
   <summary>결과 보기</summary>
@@ -433,13 +453,19 @@ DatePicker(
 
 <h4 id="Toggle"> Toggle </h4>
 
-`Toggle` is used to switch the selected state, for example:
+`Toggle`은 선택된 상태를 변경하기 위해 사용됩니다 
+
+예제:
 
 ```swift
-Togglele(isOn: $isOn) {
-    Text("State: \(self.isOn == true ? "Open":"open")")
-}.padding(20)
+Toggle(isOn: $isOn) {
+  Text("State: \(self.isOn == true ? "Open":"open")")
+      }.padding(20)
 ```
+만약 isOn 관련 에러가 뜬다면, `var body: some View {` 위에 
+
+`@State var isOn = false`
+를 선언해주세요!
 
 <details close>
   <summary>결과 보기</summary>
@@ -450,10 +476,12 @@ Togglele(isOn: $isOn) {
 
 <h4 id="Slider"> Slider </h4>
 
-`Slider ` A control for selecting values from a finite range of values, example:
 
+`Slider `은 선택된 값을 제한된 범위에서 선택할 수 있게 해줍니다.
+
+예제:
 ```swift
-Slider(value: $data.rating)
+Slider(value: $var)
 ```     
 
 <details close>
@@ -465,7 +493,9 @@ Slider(value: $data.rating)
 
 <h4 id="Stepper"> Stepper </h4>
 
-`Stepper ` is used to increase or decrease the value, example:
+`Stepper ` 는 값을 올리고,내리기 위해 사용됩니다.
+
+예제:
 
 ```swift
 Stepper(value: $value, step: 2, onEditingChanged: { c in
@@ -484,7 +514,9 @@ Stepper(value: $value, step: 2, onEditingChanged: { c in
 
 <h4 id="SegmentedControl"> SegmentedControl </h4>
 
-`SegmentedControl ` is used for segmentation condition selection, example:
+`SegmentedControl ` is used for segmentation condition selection,
+
+ 예제:
 
 ```swift
 SegmentedControl(selection: $currentIndex) {
@@ -505,7 +537,7 @@ SegmentedControl(selection: $currentIndex) {
 
 <h4 id="WebView"> WebView </h4>
 
-`WebView` is used to display an open web page, example:
+`WebView` is used to display an open web page, 예제:
 
 ```swift
 struct WebViewPage : UIViewRepresentable {
@@ -530,7 +562,7 @@ struct WebViewPage : UIViewRepresentable {
 
 `UIViewController` is used to display the **UIViewController** that opens **UIKit** in **SwiftUI** and opens the `SwiftUI` View in **UIViewController**.
 
-Example:
+예제:
 
 First define:
 
@@ -576,7 +608,7 @@ NavigationButton(destination: ControllerPage<UIKitController>()) {
 
 `HStack` is used to arrange the subviews on a horizontal line. 
 
-Example:
+예제:
 
 ```swift
 HStack {
@@ -597,7 +629,7 @@ HStack {
 
 `VStack` is used to arrange the subviews on a vertical line.
 
-Example:
+예제:
 
 ```swift
 VStack {
@@ -618,7 +650,7 @@ VStack {
 
 `ZStack` is used to override the subview, aligned on two axes.
 
-Example:
+예제:
 
 ```swift
 ZStack {
@@ -658,7 +690,7 @@ List(0..<5) { item in
 
 `ScrollView` is a scroll view container.
 
-Example:
+예제:
 
 ```swift
 ScrollView {
@@ -685,7 +717,7 @@ ScrollView {
 
 `ForEach` is used to present a view based on a collection of existing data.
 
-Example:
+예제:
 
 ```swift
 let data = (0..<5).map { $0 }
@@ -709,7 +741,7 @@ var body: some View {
 
 `Group` is used to aggregate multiple views, and the properties set on the Group will be applied to each child view.
 
-Example:
+예제:
 
 ```swift
 Group {
@@ -734,7 +766,7 @@ Waiting for release.
 
 `Section` is used to create the **header/footer** view content, which is generally used in conjunction with the `List` component.
 
-Example:
+예제:
 
 ```swift
 Section(header: Text("I'm header"), footer: Text("I'm footer")) {
@@ -755,7 +787,7 @@ Section(header: Text("I'm header"), footer: Text("I'm footer")) {
 
 `NavigationView` is used to create a view container that contains the top navigation bar.
 
-Example:
+예제:
 
 ```swift
 NavigationView {
@@ -775,7 +807,7 @@ NavigationView {
 
 `TabBar` is used to create a view container that contains the bottom **TabBar**.
 
-Example:
+예제:
 
 ```swift
 TabbedView(selection: $index) {
@@ -808,7 +840,7 @@ Waiting for release.
 
 `Alert` is used to display a bullet reminder that needs to be associated with a trigger event.
 
-Example:
+예제:
 
 ```swift
 presentation($showsAlert, alert: {
@@ -828,7 +860,7 @@ presentation($showsAlert, alert: {
 
 `ActionSheet` is used to pop up a selection box.
 
-Example:
+예제:
 
 ```swift
 ActionSheet(title: Text("Title"),
@@ -858,7 +890,7 @@ ActionSheet(title: Text("Title"),
 
 `Modal` is used to pop up a view.
 
-Example:
+예제:
 
 ```swift
 Modal(Text("Modal View"),onDismiss: {
@@ -878,7 +910,7 @@ Modal(Text("Modal View"),onDismiss: {
 
 `Popover` is used to pop up a view, see the results below.
 
-Example:
+예제:
 
 ```swift
 Popover(content: Text("Popover View")) {
