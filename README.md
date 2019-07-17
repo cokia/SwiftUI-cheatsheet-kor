@@ -11,6 +11,8 @@
 
 이 글에 대한내용 은 기본적으로 스위프트 개발을 해보신 분들을 대상으로 잡고있습니다. 그래서 모든 디테일적인 부분을 다루진 않습니다. 혹시나 스위프트의 문법적인 부분이 필요하시다면 [Swift](https://swift.org) 링크를 참고해주세요 :)
 
+**지나가시는 김에 레포지토리에 스타하나씩만 눌러주세요 ㅠㅠ**
+
 사실 필자도 스위프트에 대한 전문적 이해, SwiftUI에 대한 전문적 이해가 있는것이 아니라서, 틀린 부분이 있을수도 있습니다. 그런부분이 있다면 [Facebook](https://fb.com/wooyoung.han.5) 또는 [Mail](mailto:hwymaster01@gmail.com) 로 연락 주시거나 github issue 를 남겨주세요 :) 
 
 
@@ -504,7 +506,7 @@ Stepper(value: $value, step: 2, onEditingChanged: { c in
     Text("Stepper Value: \(self.value)")
     }.padding(50)
 ```
-
+만약 에러가 난다면
 <details close>
   <summary>결과 보기</summary>
 <img width="80%" src="images/example/Stepper.png"/>
@@ -514,7 +516,7 @@ Stepper(value: $value, step: 2, onEditingChanged: { c in
 
 <h4 id="SegmentedControl"> SegmentedControl </h4>
 
-`SegmentedControl ` is used for segmentation condition selection,
+`SegmentedControl` 은 세그먼테이션 상태 선택을 위해서 사용됩니다.
 
  예제:
 
